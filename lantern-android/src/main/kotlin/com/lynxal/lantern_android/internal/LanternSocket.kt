@@ -21,7 +21,7 @@ internal class LanternSocket(
                 ?.filter { it.isUp && it.supportsMulticast() && !it.isLoopback }
                 ?.forEach { iface ->
                     try {
-                        joinGroup(InetSocketAddress(mdnsAddress, port), iface)
+                        joinGroup(InetSocketAddress(mdnsAddress, 0), iface)
                     } catch (_: Exception) {}
                 }
         }.also { socket = it }

@@ -37,7 +37,7 @@ class LanternDiscovery(
     private val socketManager = LanternSocket(mdnsAddress, MDNS_PORT, config.socketTimeoutMs)
     private val querySender = LanternQuerySender(config.serviceType, mdnsAddress, MDNS_PORT)
 
-    private val activeInstances = mutableSetOf<String>()
+    private val knownInstances = mutableSetOf<String>()
 
     private lateinit var multicastLock: WifiManager.MulticastLock
 
@@ -83,22 +83,20 @@ class LanternDiscovery(
             }
         } catch (e: Exception) {
             if (scope.isActive) {
-                withContext(Dispatchers.Main) { listener.onError(e) }
+                listener.onError(e)
             }
         }
     }
 
-    private suspend fun notifyFound(service: ServiceInfo) {
-        val isNew = activeInstances.add(service.instanceName)
-        if (isNew) {
-            withContext(Dispatchers.Main) { listener.onServiceFound(service) }
-        }
+    private fun notifyFound(service: ServiceInfo) {
+        knownInstances.add(service.instanceName)
+        listener.onServiceFound(service)
     }
 
-    private suspend fun notifyLost(instanceName: String) {
-        val wasPresent = activeInstances.remove(instanceName)
+    private fun notifyLost(instanceName: String) {
+        val wasPresent = knownInstances.remove(instanceName)
         if (wasPresent) {
-            withContext(Dispatchers.Main) { listener.onServiceLost(instanceName) }
+            listener.onServiceLost(instanceName)
         }
     }
 

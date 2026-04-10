@@ -1,0 +1,8 @@
+*.iml
+.gradle
+.kotlin
+.DS_Store
+build
+captures
+local.properties
+xcuserdata
