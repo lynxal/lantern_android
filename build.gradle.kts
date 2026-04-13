@@ -1,4 +1,6 @@
 plugins {
-    id("com.android.library") version "8.13.1" apply false
-    id("org.jetbrains.kotlin.android") version "2.3.0" apply false
+    alias(libs.plugins.androidLibrary) apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.mavenPublish) apply false
 }

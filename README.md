@@ -64,7 +64,15 @@ All four records assembled into one ServiceInfo. No cross-device mixing possible
 
 ## Installation
 
-Add the `:lantern-android` module to your project, then in your app's `build.gradle.kts`:
+From Maven Central:
+
+```kotlin
+dependencies {
+    implementation("com.lynxal.lantern:lantern-android:0.0.1")
+}
+```
+
+Or, when consuming Lantern as a local module / git submodule:
 
 ```kotlin
 dependencies {
@@ -75,11 +83,12 @@ dependencies {
 The library's `AndroidManifest.xml` declares the required permissions automatically via manifest merge:
 
 ```xml
+<uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 ```
 
-No runtime permission prompts are required — both are install-time permissions.
+No runtime permission prompts are required — all three are install-time permissions. `INTERNET` is required for any socket creation on Android (including local multicast UDP); without it, `MulticastSocket` instantiation fails with `EPERM`.
 
 ---
 
