@@ -1,0 +1,19 @@
+[versions]
+# AGP / Kotlin / coroutines mirror the versions currently in use in the parent
+# ProvisionerKMP repo (gradle/libs.versions.toml). Keep them aligned with the
+# host project to avoid Kotlin/AGP-version drift while Lantern is still
+# consumed as a submodule there.
+agp = "8.13.1"
+kotlin = "2.3.0"
+coroutines = "1.10.2"
+android-compileSdk = "36"
+android-minSdk = "28"
+maven-publish = "0.36.0"
+
+[libraries]
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+[plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }

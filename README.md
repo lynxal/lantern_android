@@ -64,7 +64,15 @@ All four records assembled into one ServiceInfo. No cross-device mixing possible
 
 ## Installation
 
-Add the `:lantern-android` module to your project, then in your app's `build.gradle.kts`:
+From Maven Central:
+
+```kotlin
+dependencies {
+    implementation("com.lynxal.lantern:lantern-android:0.0.1")
+}
+```
+
+Or, when consuming Lantern as a local module / git submodule:
 
 ```kotlin
 dependencies {

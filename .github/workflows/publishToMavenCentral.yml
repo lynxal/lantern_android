@@ -1,0 +1,44 @@
+name: Publish to Maven Central
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  release:
+    types: [released]
+
+jobs:
+  build-release:
+    uses: ./.github/workflows/buildLibrary.yml
+
+  publish:
+    needs: build-release
+    timeout-minutes: 15
+    environment: Release
+    runs-on: ubuntu-latest
+
+    env:
+      ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME }}
+      ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD }}
+      ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEY }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYID }}
+      ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_SIGNINGINMEMORYKEYPASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v3
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: zulu
+
+      - name: Publish to Maven Central
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: publishAllPublicationsToMavenCentralRepository
