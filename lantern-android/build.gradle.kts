@@ -26,14 +26,11 @@ android {
         }
     }
 
-    // AGP must expose a single release variant with sources and javadoc jars
-    // so the Vanniktech publish plugin can attach them to the publication.
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
+    // Note: NOT declaring `publishing { singleVariant("release") { ... } }` here.
+    // The com.vanniktech.maven.publish plugin already configures the release
+    // singleVariant with sources & javadoc jars internally — declaring it again
+    // fails with "Using singleVariant publishing DSL multiple times to publish
+    // variant release to component release is not allowed".
 }
 
 dependencies {
