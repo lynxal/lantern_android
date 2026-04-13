@@ -83,11 +83,12 @@ dependencies {
 The library's `AndroidManifest.xml` declares the required permissions automatically via manifest merge:
 
 ```xml
+<uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 ```
 
-No runtime permission prompts are required — both are install-time permissions.
+No runtime permission prompts are required — all three are install-time permissions. `INTERNET` is required for any socket creation on Android (including local multicast UDP); without it, `MulticastSocket` instantiation fails with `EPERM`.
 
 ---
 
