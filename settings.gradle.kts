@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "lantern-android"
 include(":lantern-android")
+include(":sampleApp")
